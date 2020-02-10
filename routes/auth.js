@@ -1,19 +1,44 @@
 const express = require('express');
 const axios = require('axios');
+const { query } = require('../init/mysql');
+const { GITHUB_OAUTH_URL, CLIENT_ID, CLIENT_SECRET } = require('../config/auth');
 const router = express.Router();
 
-const { GITHUB_OAUTH_URL, CLIENT_ID, CLIENT_SECRET } = require('../config/auth');
+async function save(req, res, user) {
+  try {
+    let result = await query('select * from user where id = ? limit 1', [user.id]);
+    let target = result[0];
+    if (!target) {
+      target = {
+        id: user.id,
+        name: user.name,
+        integral: 100,
+      };
+      await query('insert into user(id, name, integral) values(?, ?, ?)', [
+        target.id,
+        target.name,
+        target.integral,
+      ]);
+    }
+    req.session.user = target;
+    const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '/';
+    res.redirect(url);
+  } catch(e) {
+    console.log(e);
+    res.send('server error');
+  };
+}
 
-router.get('/login', (req, res, next) => {
+router.get('/login', (req, res) => {
   return res.redirect(GITHUB_OAUTH_URL);
 });
 
-router.get('/logout', (req, res, next) => {
+router.get('/logout', (req, res) => {
   req.session.user = null;
   return res.send();
 });
 
-router.get('/auth', async (req, res, next) => {
+router.get('/auth', async (req, res) => {
   const { code } = req.query;
   if (!code) {
     return res.send('the code is lost!');
@@ -36,9 +61,7 @@ router.get('/auth', async (req, res, next) => {
     },
   });
   if (result.status !== 200) return res.send('get user information fail!');
-  req.session.user = result.data;
-  const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '/';
-  return res.redirect(url);
+  save(req, res, result.data);
 });
 
 module.exports = router;

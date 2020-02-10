@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const query = require('../init/mysql');
+const { query } = require('../init/mysql');
 const Merchandise = require('../model/Merchaindise');
 
 function save(merchandise) {
