@@ -3,12 +3,14 @@ const { query } = require('../init/mysql');
 const Merchandise = require('../model/Merchaindise');
 
 function save(merchandise) {
-  return query('insert into merchandise(name, description, path, integral, create_time, exist) values(?, ?, ?, ?, ?, ?)', [
+  return query('insert into merchandise(name, description, path, integral, create_time, status, stock, exist) values(?, ?, ?, ?, ?, ?, ?, ?)', [
     merchandise.name,
     merchandise.description,
     merchandise.path,
     merchandise.integral,
     merchandise.create_time,
+    merchandise.status,
+    merchandise.stock,
     merchandise.exist,
   ]);
 }
@@ -36,11 +38,13 @@ function remove(ids) {
 }
 
 function edit(merchandise) {
-  return query('update merchandise set name = ?, description = ?, path = ?, integral = ? where id = ?', [
+  return query('update merchandise set name = ?, description = ?, path = ?, integral = ?, status = ?, stock = ? where id = ?', [
     merchandise.name,
     merchandise.description,
     merchandise.path,
     merchandise.integral,
+    merchandise.status,
+    merchandise.stock,
     merchandise.id,
   ]);
 }
