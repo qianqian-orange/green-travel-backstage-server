@@ -40,9 +40,9 @@ router.get('/list', (req, res) => {
         id: item.ad_id,
         path: item.ad_path,
         outside_link: item.ad_link,
-        create_time: item.date,
-        status: item.status,
-        exist: item.exist,
+        create_time: item.ad_date,
+        status: item.ad_status,
+        exist: item.ad_exist,
       })),
     });
   }).catch((e) => {
