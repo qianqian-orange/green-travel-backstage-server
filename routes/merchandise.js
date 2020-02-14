@@ -60,6 +60,7 @@ router.get('/list', (req, res) => {
         id: item.com_id,
         name: item.com_name,
         description: item.com_intro,
+        integral: item.com_value,
         path: item.com_image,
         create_time: item.create_time,
         exist: item.exist,
