@@ -10,6 +10,7 @@ const uploadRouter = require('./routes/upload');
 const merchandiseRouter = require('./routes/merchandise');
 const advertisementRouter = require('./routes/advertisement');
 const conversionRouter = require('./routes/conversion');
+const publicWelfareRouter = require('./routes/publicWelfare');
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 
@@ -41,15 +42,16 @@ app.use(session({
 
 app.use('/api', userRouter);
 app.use('/api', authRouter);
+app.use('/api/upload', uploadRouter);
 app.use('/api', (req, res, next) => {
   const user = req.session.user;
   if (!user) return res.send('you can\'t do anything without login！');
   next();
 });
-app.use('/api/upload', uploadRouter);
 app.use('/api/merchandise', merchandiseRouter);
 app.use('/api/advertisement', advertisementRouter);
 app.use('/api/conversion', conversionRouter);
+app.use('/api/publicWelfare', publicWelfareRouter);
 
 app.use((req, res) => {
   fs.readFile(path.join(__dirname, './public/index.html'), 'utf-8', (err, data) => {
