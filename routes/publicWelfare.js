@@ -44,6 +44,8 @@ router.get('/list', (req, res) => {
       code,
       data: data.map((item) => ({
         id: item.pw_id,
+        user_id: item.user_id,
+        reason: item.reason,
         title: item.title,
         description: item.description,
         integral: item.integral,
@@ -51,6 +53,9 @@ router.get('/list', (req, res) => {
         end_time: item.end_time,
         path: item.path,
         name: item.name,
+        status: item.status,
+        destory: item.destory,
+        exist: item.exist,
       })),
     });
   }).catch((e) => {
