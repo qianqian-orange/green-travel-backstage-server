@@ -1,6 +1,6 @@
 const express = require('express');
 const upload = require('../init/upload');
-const { merchandise, advertisement, task } = require('../config/upload');
+const { merchandise, advertisement, publicWelfare } = require('../config/upload');
 const moment = require('moment');
 const advertisementController = require('../controller/AdvertisementController');
 
@@ -19,13 +19,13 @@ router.post(`/${advertisement}`, upload.single(advertisement), (req, res) => {
   else res.json({ code: 0, path: `/upload/${advertisement}/${moment().format('YYYY-MM-DD')}/${req.file.filename}` });
 });
 
-router.post(`/${task}`, upload.single(task), (req, res) => {
+router.post(`/${publicWelfare}`, upload.single(publicWelfare), (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', '*');
   res.setHeader('Access-Control-Allow-Methods', '*');
   res.json({
     code: 0,
-    path: `/upload/${task}/${moment().format('YYYY-MM-DD')}/${req.file.filename}`,
+    path: `/upload/${publicWelfare}/${moment().format('YYYY-MM-DD')}/${req.file.filename}`,
   });
 });
 

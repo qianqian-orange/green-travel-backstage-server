@@ -11,6 +11,8 @@ const merchandiseRouter = require('./routes/merchandise');
 const advertisementRouter = require('./routes/advertisement');
 const conversionRouter = require('./routes/conversion');
 const publicWelfareRouter = require('./routes/publicWelfare');
+const couponRouter = require('./routes/coupon');
+const taskRouter = require('./routes/task');
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 
@@ -52,6 +54,8 @@ app.use('/api/merchandise', merchandiseRouter);
 app.use('/api/advertisement', advertisementRouter);
 app.use('/api/conversion', conversionRouter);
 app.use('/api/publicWelfare', publicWelfareRouter);
+app.use('/api/coupon', couponRouter);
+app.use('/api/task', taskRouter);
 
 app.use((req, res) => {
   fs.readFile(path.join(__dirname, './public/index.html'), 'utf-8', (err, data) => {
