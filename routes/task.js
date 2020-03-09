@@ -65,7 +65,7 @@ router.get('/total', (req, res) => {
 // "title": "asd",
 // "type": 1
 router.get('/list', (req, res) => {
-  axios.get('http://localhost:8080/green_travel/api/totalTask.action', {
+  axios.get('http://localhost:8080/green_travel/api/listTaskBytype.action', {
     params: req.query,
   }).then((result) => {
     console.log('task list result: ', result.data);
