@@ -9,15 +9,34 @@ router.get('/login', async (req, res) => {
     id: 123456,
     name: 'xiaoming',
   };
-  let result = await query('select * from user where id = ? limit 1', [target.id]);
-  if (result.length === 0) {
-    await query('insert into user(id, name, integral) values(?, ?, 0)', [target.id, target.name]);
-    await query('insert into level(user_id, lv, growth) values(?, 1, 0)', [target.id]);
-  }
-  req.session.user = target;
-  const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3001/admin' : '/admin';
-  res.redirect(url);
+  axios.post('http://localhost:8080/green_travel/api/Authentication.action', target)
+    .then((result) => {
+      const { code }  = result.data;
+      if (code === 0) {
+        req.session.user = target;
+        return res.redirect('/admin');
+      }
+      res.send(code);
+    }).catch((e) => {
+      console.log(e);
+      res.send('server errror!');
+    });
 });
+
+// router.get('/login', async (req, res) => {
+//   let target = {
+//     id: 123456,
+//     name: 'xiaoming',
+//   };
+//   let result = await query('select * from user where id = ? limit 1', [target.id]);
+//   if (result.length === 0) {
+//     await query('insert into user(id, name, integral) values(?, ?, 0)', [target.id, target.name]);
+//     await query('insert into level(user_id, lv, growth) values(?, 1, 0)', [target.id]);
+//   }
+//   req.session.user = target;
+//   const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3001/admin' : '/admin';
+//   res.redirect(url);
+// });
 
 router.get('/logout', (req, res) => {
   req.session.user = null;

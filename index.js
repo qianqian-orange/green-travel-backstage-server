@@ -24,6 +24,7 @@ app.use(favicon(path.join(__dirname, './public/favicon.ico')));
 app.use('/admin/static/', express.static(path.join(__dirname, './public/static')));
 app.use('/upload/', express.static(path.join(__dirname, './upload')));
 
+// TODO: 更优雅的处理方案
 app.use('/admin/api/upload', uploadRouter);
 
 /* application/x-www-form-urlencoded */
