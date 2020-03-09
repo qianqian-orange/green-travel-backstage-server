@@ -24,6 +24,8 @@ app.use(favicon(path.join(__dirname, './public/favicon.ico')));
 app.use('/admin/static/', express.static(path.join(__dirname, './public/static')));
 app.use('/upload/', express.static(path.join(__dirname, './upload')));
 
+app.use('/admin/api/upload', uploadRouter);
+
 /* application/x-www-form-urlencoded */
 app.use(express.urlencoded({ extended: false }));
 /* application/json */
@@ -44,7 +46,6 @@ app.use(session({
 
 app.use('/admin/api', userRouter);
 app.use('/admin/api', authRouter);
-app.use('/admin/api/upload', uploadRouter);
 app.use('/admin/api', (req, res, next) => {
   const user = req.session.user;
   if (!user) return res.send('you can\'t do anything without login！');
