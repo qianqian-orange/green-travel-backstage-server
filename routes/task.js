@@ -68,7 +68,7 @@ router.get('/list', (req, res) => {
   axios.get('http://localhost:8080/green_travel/api/totalTask.action', {
     params: req.query,
   }).then((result) => {
-    console.log('task list result: ', result.data.code);
+    console.log('task list result: ', result.data);
     const { code, data } = result.data;
     res.json({
       code,
