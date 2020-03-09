@@ -15,8 +15,13 @@ router.get('/login', async (req, res) => {
     await query('insert into level(user_id, lv, growth) values(?, 1, 0)', [target.id]);
   }
   req.session.user = target;
-  const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '/';
+  const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3001/admin' : '/admin';
   res.redirect(url);
+});
+
+router.get('/logout', (req, res) => {
+  req.session.user = null;
+  return res.send();
 });
 
 async function save(req, res, user) {
@@ -35,7 +40,7 @@ async function save(req, res, user) {
       if (result.length === 0) return res.json({ code: 1 });
     }
     req.session.user = target;
-    const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '/';
+    const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3001/admin' : '/admin';
     res.redirect(url);
   } catch(e) {
     console.log(e);
@@ -46,11 +51,6 @@ async function save(req, res, user) {
 // router.get('/login', (req, res) => {
 //   return res.redirect(GITHUB_OAUTH_URL);
 // });
-
-router.get('/logout', (req, res) => {
-  req.session.user = null;
-  return res.send();
-});
 
 router.get('/auth', async (req, res) => {
   const { code } = req.query;

@@ -21,7 +21,7 @@ const app = express();
 /* favicon */
 app.use(favicon(path.join(__dirname, './public/favicon.ico')));
 /* static */
-app.use('/static/', express.static(path.join(__dirname, './public/static')));
+app.use('/admin/static/', express.static(path.join(__dirname, './public/static')));
 app.use('/upload/', express.static(path.join(__dirname, './upload')));
 
 /* application/x-www-form-urlencoded */
@@ -42,20 +42,20 @@ app.use(session({
   store: new redisStore({ client }),
 }));
 
-app.use('/api', userRouter);
-app.use('/api', authRouter);
-app.use('/api/upload', uploadRouter);
-app.use('/api', (req, res, next) => {
+app.use('/admin/api', userRouter);
+app.use('/admin/api', authRouter);
+app.use('/admin/api/upload', uploadRouter);
+app.use('/admin/api', (req, res, next) => {
   const user = req.session.user;
   if (!user) return res.send('you can\'t do anything without login！');
   next();
 });
-app.use('/api/merchandise', merchandiseRouter);
-app.use('/api/advertisement', advertisementRouter);
-app.use('/api/conversion', conversionRouter);
-app.use('/api/publicWelfare', publicWelfareRouter);
-app.use('/api/coupon', couponRouter);
-app.use('/api/task', taskRouter);
+app.use('/admin/api/merchandise', merchandiseRouter);
+app.use('/admin/api/advertisement', advertisementRouter);
+app.use('/admin/api/conversion', conversionRouter);
+app.use('/admin/api/publicWelfare', publicWelfareRouter);
+app.use('/admin/api/coupon', couponRouter);
+app.use('/admin/api/task', taskRouter);
 
 app.use((req, res) => {
   fs.readFile(path.join(__dirname, './public/index.html'), 'utf-8', (err, data) => {
